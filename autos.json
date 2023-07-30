@@ -1,0 +1,39 @@
+[
+    {
+      "modelo": "208 Active",
+      "color": "blanco",
+      "precio": 10000,
+      "imagen": "./img/208 blanco.jpg"
+    },
+    {
+      "modelo": "208 Active",
+      "color": "gris",
+      "precio": 11000,
+      "imagen": "./img/208 gris.jpg"
+    },
+    {
+      "modelo": "2008 Allure",
+      "color": "blanco",
+      "precio": 12500,
+      "imagen": "./img/2008 blanca.jpg"
+    },
+    {
+      "modelo": "2008 Allure",
+      "color": "negro",
+      "precio": 13500,
+      "imagen": "./img/2008 negra.jpg"
+    },
+    {
+      "modelo": "Partner Confort",
+      "color": "blanco",
+      "precio": 14000,
+      "imagen": "./img/partner blanca.jpg"
+    },
+    {
+      "modelo": "Partner Confort",
+      "color": "negra",
+      "precio": 14500,
+      "imagen": "./img/partner negra.jpg"
+    }
+  ]
+  

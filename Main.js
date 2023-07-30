@@ -67,11 +67,19 @@ function mostrarMenu() {
   vaciarBtn.addEventListener("click", vaciarCarrito);
 }
 
+
 function agregarAlCarrito(event) {
   const index = event.target.dataset.index;
   const auto = autos[index];
   carrito.push(auto);
-  mostrarMensaje(`El auto "${auto.modelo}" ha sido agregado al carrito.`);
+  
+
+  Toastify({
+    text: `El auto "${auto.modelo}" ha sido agregado al carrito.`,
+    duration: 1500, 
+    gravity: "top", 
+    backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)", 
+  }).showToast();
 }
 
 function pagarContado() {
@@ -125,43 +133,74 @@ function filtrarPorPrecioMaximo() {
   const precioMaximo = parseFloat(document.getElementById("precioMaximoInput").value);
 
   if (!isNaN(precioMaximo) && precioMaximo > 0) {
-    const autosFiltrados = autos.filter((auto) => auto.precio <= precioMaximo);
+    fetch('autos.json') 
+      .then((response) => {
+        return response.json();
+      })
+      .then((autosData) => {
+        const autosFiltrados = autosData.filter((auto) => auto.precio <= precioMaximo);
 
-    if (autosFiltrados.length > 0) {
-      let resultadoFiltrado = `Autos encontrados con precio máximo de $${precioMaximo}:`;
+        if (autosFiltrados.length > 0) {
+          let resultadoFiltrado = `Autos encontrados con precio máximo de $${precioMaximo}:`;
 
-      autosFiltrados.forEach((auto) => {
-        resultadoFiltrado += `
-          <div class="card">
-            <img src="${auto.imagen}" alt="${auto.modelo}">
-            <h3>${auto.modelo}</h3>
-            <p>Color: ${auto.color}</p>
-            <p>Precio: $${auto.precio}</p>
-          </div>
-        `;
+          autosFiltrados.forEach((auto) => {
+            resultadoFiltrado += `
+              <div class="card">
+                <img src="${auto.imagen}" alt="${auto.modelo}">
+                <h3>${auto.modelo}</h3>
+                <p>Color: ${auto.color}</p>
+                <p>Precio: $${auto.precio}</p>
+              </div>
+            `;
+          });
+
+          mostrarMensaje(resultadoFiltrado);
+        } else {
+          mostrarMensaje(`No se encontraron autos con precio máximo de $${precioMaximo}.`);
+        }
+      })
+      .catch((error) => {
+        mostrarMensaje('No se pudo obtener la lista de autos.');
+        console.error(error);
       });
-
-      mostrarMensaje(resultadoFiltrado);
-    } else {
-      mostrarMensaje(`No se encontraron autos con precio máximo de $${precioMaximo}.`);
-    }
   } else {
-    mostrarMensaje("Precio máximo inválido.");
+    mostrarMensaje('Precio máximo inválido.');
   }
 }
 
+
+
 function vaciarCarrito() {
-  carrito = [];
-  mostrarMensaje("El carrito ha sido vaciado.");
   
+  Swal.fire({
+    title: '¿Estás seguro de vaciar el carrito?',    
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Vaciar carrito',
+    cancelButtonText: 'Seguir comprando',
+    reverseButtons: true, 
+    focusCancel: true
+  }).then((result) => {
+    if (result.isConfirmed) {     
+      carrito = [];
+      guardarCarritoEnStorage();
+
+      Toastify({
+        text: 'El carrito ha sido vaciado.',
+        duration: 2000,
+        gravity: 'top',
+        backgroundColor: 'linear-gradient(to right, #00b09b, #96c93d)',
+      }).showToast();
+    }
+  });
 }
 
-// Función para guardar el carrito en el localStorage
+
 function guardarCarritoEnStorage() {
   localStorage.setItem("carrito", JSON.stringify(carrito));
 }
 
-// Función para cargar el carrito desde el localStorage
+
 function cargarCarritoDesdeStorage() {
   const carritoJSON = localStorage.getItem("carrito");
   if (carritoJSON) {
@@ -169,7 +208,7 @@ function cargarCarritoDesdeStorage() {
   }
 }
 
-// Llamada a la función para cargar el carrito desde el localStorage
+
 cargarCarritoDesdeStorage();
 
 function mostrarMensaje(mensaje) {
