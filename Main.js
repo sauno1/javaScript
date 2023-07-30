@@ -78,7 +78,7 @@ function agregarAlCarrito(event) {
     text: `El auto "${auto.modelo}" ha sido agregado al carrito.`,
     duration: 1500, 
     gravity: "top", 
-    backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)", 
+    backgroundColor: "linear-gradient(to right, #000080, #0000ff)", 
   }).showToast();
 }
 
@@ -189,7 +189,7 @@ function vaciarCarrito() {
         text: 'El carrito ha sido vaciado.',
         duration: 2000,
         gravity: 'top',
-        backgroundColor: 'linear-gradient(to right, #00b09b, #96c93d)',
+        backgroundColor: 'linear-gradient(to right, #000080, #0000ff)',
       }).showToast();
     }
   });
