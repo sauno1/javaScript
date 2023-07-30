@@ -72,7 +72,7 @@ function agregarAlCarrito(event) {
   const index = event.target.dataset.index;
   const auto = autos[index];
   carrito.push(auto);
-  
+  guardarCarritoEnStorage();
 
   Toastify({
     text: `El auto "${auto.modelo}" ha sido agregado al carrito.`,
